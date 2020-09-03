@@ -1,6 +1,8 @@
 const currentURL = window.location.href;
 const rootDomain = window.location.hostname;
 
+let procedureLists = ['Procedures']
+
 // always resolves to true? troubleshoot me!!!
 isInDevelopment = () => {
   if (rootDomain === 'www.freewaysites.com') return true
@@ -24,33 +26,35 @@ chrome.runtime.onMessage.addListener(function (request) {
 
 chrome.runtime.onMessage.addListener(function (request) {
   if (request === 'queryData') {
-    try {
-      if (document.querySelector('[itemprop="copyrightHolder"]')) {
-        if (document.querySelector('[itemprop="copyrightHolder"]').innerHTML === 'PBHS') {
-          if (document.querySelector('[data-searchable-tag="Procedures"]')) {
-            let childElements = document.querySelector('[data-searchable-tag="Procedures"]').parentElement.children;
-            let childList = {};
-            for (element in Array.from(childElements)) {
-              if (childElements[element].className === 'children') {
-                childList = childElements[element];
-                break;
+    for (list of procedureLists) {
+      try {
+        if (document.querySelector('[itemprop="copyrightHolder"]')) {
+          if (document.querySelector('[itemprop="copyrightHolder"]').innerHTML === 'PBHS') {
+            if (document.querySelector('[data-searchable-tag=' + CSS.escape(list) + ']')) {
+              let childElements = document.querySelector('[data-searchable-tag=' + CSS.escape(list) + ']').parentElement.children;
+              let childList = {};
+              for (element in Array.from(childElements)) {
+                if (childElements[element].className === 'children') {
+                  childList = childElements[element];
+                  break;
+                }
               }
-            }
-            for (child in Array.from(childList.children)) {
-              console.log(childList.children[child].querySelector('a').innerHTML)
+              for (child in Array.from(childList.children)) {
+                console.log(childList.children[child].querySelector('a').innerHTML)
+              }
+            } else {
+              throw `Can't find "${workingDomain}/${list}"`
             }
           } else {
-            throw `Can't find "${workingDomain}/Procedures"`
+            throw 'Not a PBHS Site'
           }
         } else {
           throw 'Not a PBHS Site'
         }
-      } else {
-        throw 'Not a PBHS Site'
       }
-    }
-    catch (err) {
-      if (err) alert(err);
+      catch (err) {
+        if (err) alert(err);
+      }
     }
   }
 })
