@@ -7,7 +7,6 @@ if (topLevelNav) {
   Array.from(topLevelNav.children).forEach(navElement => {
     navItem = '';
     navItem = navElement.querySelector('a').getAttribute('data-searchable-tag')
-    console.log(`pushing ${navItem} to navItems`)
     navItems.push(navItem);
   })
 }
@@ -15,10 +14,6 @@ if (topLevelNav) {
 let procedureLists = navItems.filter(page =>
   page.includes('Procedures') || page.includes('Services')
 )
-
-console.log(`navItems ${navItems}
-includeList: ${includeList}
-prodecureLists: ${procedureLists}`)
 
 isInDevelopment = () => {
   if (rootDomain === 'www.freewaysites.com') return true
