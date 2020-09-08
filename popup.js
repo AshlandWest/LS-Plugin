@@ -28,11 +28,4 @@ function submitHandler(event) {
   event.preventDefault()
 }
 const formElement = document.getElementById('procedureForm')
-// formElement.onsubmit = submitHandler
 formElement.addEventListener('submit', submitHandler)
-
-// document.getElementById("procedureForm").addEventListener("click", function (event) {
-//   console.log(event)
-//   event.preventDefault()
-// });
-
