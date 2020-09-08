@@ -14,7 +14,6 @@ if (topLevelNav) {
 
 let procedureLists = ['Procedures']
 
-// always resolves to true? troubleshoot me!!!
 isInDevelopment = () => {
   if (rootDomain === 'www.freewaysites.com') return true
   if (rootDomain === 'www.pbhssites.com') return true
