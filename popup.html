@@ -6,7 +6,7 @@
 </head>
 
 <body>
-  <div style="width: 800px; height: 600px; background-color: aqua;">
+  <div style="width: 800px; height: 600px; background-color: #ccc;">
     <button id="bananas">Bananas</button>
     <button id="queryData">Query Data</button>
 
@@ -19,10 +19,38 @@
     <div class="table">
       <div class="row">
         <div class="cell">
+          <h3>Add Data</h3>
+        </div>
+        <div class="cell">
+
+          <form id="procedureForm" name="form">
+            <div>
+              <label for="username">Procedure Lists</label>
+              <input type="text" id="pLists" name="plists">
+            </div>
+            <br>
+            <div>
+              <label for="useracc">Items to Exclude:</label>
+              <input type="text" id="exLists" name="exLists">
+            </div>
+            <br>
+            <div>
+              <label for="userfile">Misc items to Include:</label>
+              <input type="text" id="miscAdd" name="miscAdd">
+            </div>
+            <br>
+            <input type="submit" value="Update">
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell">
           <h3>Procedure lists</h3>
         </div>
         <div class="cell">
-          <p>Procedures, Services, etc</p>
+          <div id="procedureList">
+            <p>List Here</p>
+          </div>
         </div>
       </div>
       <div class="row">

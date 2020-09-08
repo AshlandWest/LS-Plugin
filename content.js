@@ -1,9 +1,19 @@
 const currentURL = window.location.href;
 const rootDomain = window.location.hostname;
 
+const topLevelNav = document.getElementById('nav');
+let navItems = [];
+if (topLevelNav) {
+  Array.from(topLevelNav.children).forEach(navElement => {
+    navItem = '';
+    navItem = navElement.querySelector('a').getAttribute('data-searchable-tag')
+    console.log(`pushing ${navItem} to navItems`)
+    navItems.push(navItem);
+  })
+}
+
 let procedureLists = ['Procedures']
 
-// always resolves to true? troubleshoot me!!!
 isInDevelopment = () => {
   if (rootDomain === 'www.freewaysites.com') return true
   if (rootDomain === 'www.pbhssites.com') return true
@@ -40,7 +50,7 @@ chrome.runtime.onMessage.addListener(function (request) {
                 }
               }
               for (child in Array.from(childList.children)) {
-                console.log(childList.children[child].querySelector('a').innerHTML)
+                console.log(childList.children[child].querySelector('a').innerText)
               }
             } else {
               throw `Can't find "${workingDomain}/${list}"`
