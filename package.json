@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/AshlandWest/LS-Plugin/issues"
   },
-  "homepage": "https://github.com/AshlandWest/LS-Plugin#readme"
+  "homepage": "https://github.com/AshlandWest/LS-Plugin#readme",
+  "dependencies": {
+    "file-system": "^2.2.2",
+    "react": "^16.13.1"
+  }
 }
