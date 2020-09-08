@@ -1,3 +1,5 @@
+const fs = require('file-system');
+
 const currentURL = window.location.href;
 const rootDomain = window.location.hostname;
 
