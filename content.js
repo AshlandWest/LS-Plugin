@@ -12,7 +12,13 @@ if (topLevelNav) {
   })
 }
 
-let procedureLists = ['Procedures']
+let procedureLists = navItems.filter(page =>
+  page.includes('Procedures') || page.includes('Services')
+)
+
+console.log(`navItems ${navItems}
+includeList: ${includeList}
+prodecureLists: ${procedureLists}`)
 
 isInDevelopment = () => {
   if (rootDomain === 'www.freewaysites.com') return true
