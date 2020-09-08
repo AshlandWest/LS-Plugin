@@ -42,6 +42,7 @@ chrome.runtime.onMessage.addListener(function (request) {
 
 chrome.runtime.onMessage.addListener(function (request) {
   if (request === "queryData") {
+    let unfilteredProcedures = [];
     for (list of procedureLists) {
       try {
         if (document.querySelector('[itemprop="copyrightHolder"]')) {
@@ -65,8 +66,15 @@ chrome.runtime.onMessage.addListener(function (request) {
                 }
               }
               for (child in Array.from(childList.children)) {
-                console.log(
+                unfilteredProcedures.push(
                   childList.children[child].querySelector("a").innerText
+                );
+                procedures.push(
+                  ...unfilteredProcedures.filter(
+                    (item) =>
+                      !exclusionList.includes(item) &&
+                      !procedures.includes(item)
+                  )
                 );
               }
             } else {
@@ -82,5 +90,6 @@ chrome.runtime.onMessage.addListener(function (request) {
         if (err) alert(err);
       }
     }
+    console.log(procedures);
   }
 });
