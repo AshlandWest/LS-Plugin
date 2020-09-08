@@ -1,0 +1,19 @@
+{
+  "name": "ls-helper",
+  "version": "1.0.0",
+  "description": "A handy program to help with the setup of PBHS Launch Surveys",
+  "main": "content.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AshlandWest/LS-Plugin.git"
+  },
+  "author": "Ash West",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AshlandWest/LS-Plugin/issues"
+  },
+  "homepage": "https://github.com/AshlandWest/LS-Plugin#readme"
+}
