@@ -5,15 +5,9 @@ const lists = {
 };
 
 const updatePage = (lists) => {
-  document
-    .getElementById("pLists")
-    .setAttribute("value", lists.procedures.join(", "));
-  document
-    .getElementById("exLists")
-    .setAttribute("value", lists.exclusions.join(", "));
-  document
-    .getElementById("miscAdd")
-    .setAttribute("value", lists.misc.join(", "));
+  document.getElementById("pLists").setAttribute("value", "");
+  document.getElementById("exLists").setAttribute("value", "");
+  document.getElementById("miscAdd").setAttribute("value", "");
   lists.procedures.forEach((item) =>
     document.getElementById("remPLists").insertAdjacentHTML(
       "beforeend",
