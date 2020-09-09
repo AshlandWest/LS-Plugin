@@ -25,38 +25,62 @@
           <div class="cell">
             <form id="addForm" name="form">
               <div>
-                <label for="username">Procedure Lists:</label>
-                <input type="text" id="pLists" name="plists" />
+                <label for="pLists">Procedure Lists:</label>
+                <input
+                  type="text"
+                  id="pLists"
+                  name="pLists"
+                  value="Loading..."
+                />
               </div>
               <br />
               <div>
-                <label for="useracc">Items to Exclude:</label>
-                <input type="text" id="exLists" name="exLists" />
+                <label for="exLists">Items to Exclude:</label>
+                <input
+                  type="text"
+                  id="exLists"
+                  name="exLists"
+                  value="Loading..."
+                />
               </div>
               <br />
               <div>
-                <label for="userfile">Misc items to Include:</label>
-                <input type="text" id="miscAdd" name="miscAdd" />
+                <label for="miscAdd">Misc items to Include:</label>
+                <input
+                  type="text"
+                  id="miscAdd"
+                  name="miscAdd"
+                  value="Loading..."
+                />
               </div>
               <br />
               <input type="submit" value="Update" />
             </form>
           </div>
           <div class="cell">
-            <form id="removeForm">
+            <form id="remForm">
               <div>
                 <label for="remPLists">Procedure Lists:</label>
-                <select id="remPLists"></select>
+                <button type="button" class="showHide" for="remPLists">
+                  Show
+                </button>
+                <span id="remPLists" style="display: none"></span>
               </div>
               <br />
               <div>
-                <label for="remUseracc">Items to Exclude:</label>
-                <select id="remUseracc"></select>
+                <label for="remExLists">Items to Exclude:</label>
+                <button type="button" class="showHide" for="remExLists">
+                  Show
+                </button>
+                <span id="remExLists" style="display: none"></span>
               </div>
               <br />
               <div>
-                <label for="RemMiscAdd">Misc items to Include:</label>
-                <select id="remMiscAdd"></select>
+                <label for="remMiscAdd">Misc items to Include:</label>
+                <button type="button" class="showHide" for="remMiscAdd">
+                  Show
+                </button>
+                <span id="remMiscAdd" style="display: none"></span>
               </div>
               <br />
               <input type="submit" value="Update" />
@@ -68,9 +92,7 @@
             <h3>Procedure lists</h3>
           </div>
           <div class="cell">
-            <div id="procedureList">
-              <p>List Here</p>
-            </div>
+            <p id="procedureList">Loading...</p>
           </div>
         </div>
         <div class="row">
@@ -78,7 +100,7 @@
             <h3>Exclutions</h3>
           </div>
           <div class="cell">
-            <p>Stem Cells, Wizard's Chess, etc</p>
+            <p id="exclusionList">Stem Cells, Wizard's Chess, etc</p>
           </div>
         </div>
         <div class="row">
@@ -86,16 +108,16 @@
             <h3>Misc Inclutions</h3>
           </div>
           <div class="cell">
-            <p>Post-Surgical Dance Party</p>
+            <p id="miscList">Post-Surgical Dance Party</p>
           </div>
         </div>
         <div class="fullRow">
           <h3>Backend Code</h3>
-          <p>[code]: Lots of stuff blah blah blah who cares</p>
+          <p id="backEndCode">[code]: Lots of stuff blah blah blah who cares</p>
         </div>
         <div class="fullRow">
           <h3>Frontend Code</h3>
-          <p>
+          <p id="frontEndCode">
             [short code], [less short code], [even less more still], [meduim
             code?], [definetally long code now]]
           </p>
