@@ -1,3 +1,74 @@
+const lists = {
+  procedures: ["Proc1", "Proc2", "Proc3"],
+  exclusions: ["Exc1", "Exc2", "Exc3"],
+  misc: ["Misc1", "Misc2", "Misc3"],
+};
+
+const updatePage = (lists) => {
+  document
+    .getElementById("pLists")
+    .setAttribute("value", lists.procedures.join(", "));
+  document
+    .getElementById("exLists")
+    .setAttribute("value", lists.exclusions.join(", "));
+  document
+    .getElementById("miscAdd")
+    .setAttribute("value", lists.misc.join(", "));
+  lists.procedures.forEach((item) =>
+    document.getElementById("remPLists").insertAdjacentHTML(
+      "beforeend",
+      `<div>
+        <input type="checkbox" id="${item}" name="${item}" value="${item}" />
+        <label for="${item}">${item}</label>
+      </div>`
+    )
+  );
+  lists.exclusions.forEach((item) =>
+    document.getElementById("remExLists").insertAdjacentHTML(
+      "beforeend",
+      `<div>
+        <input type="checkbox" id="${item}" name="${item}" value="${item}" />
+        <label for="${item}">${item}</label>
+      </div>`
+    )
+  );
+  lists.misc.forEach((item) =>
+    document.getElementById("remMiscAdd").insertAdjacentHTML(
+      "beforeend",
+      `<div>
+      <input type="checkbox" id="${item}" name="${item}" value="${item}" />
+      <label for="${item}">${item}</label>
+    </div>`
+    )
+  );
+  document.getElementById("procedureList").innerText = ``;
+  document.getElementById("exclusionList").innerText = ``;
+  document.getElementById("miscList").innerText = ``;
+  document.getElementById("backEndCode").innerText = ``;
+  document.getElementById("frontEndCode").innerText = ``;
+};
+
+function showHide(id) {
+  var tag = document.getElementById(id);
+  if (tag.style.display === "none") {
+    tag.style.display = "inline";
+  } else {
+    tag.style.display = "none";
+  }
+}
+
+const showHideButtons = document.querySelectorAll(".showHide");
+for (const button of showHideButtons) {
+  button.addEventListener("click", function (event) {
+    showHide(event.target.getAttribute("for"));
+    if (button.innerText === "Show") {
+      button.innerText = "Hide";
+    } else {
+      button.innerText = "Show";
+    }
+  });
+}
+
 document.addEventListener(
   "DOMContentLoaded",
   function () {

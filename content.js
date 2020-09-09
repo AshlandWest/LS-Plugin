@@ -11,6 +11,7 @@ if (topLevelNav) {
   });
 }
 
+// start exported variables
 let procedureLists = navItems.filter(
   (page) => page.includes("Procedures") || page.includes("Services")
 );
@@ -18,6 +19,9 @@ let procedureLists = navItems.filter(
 let exclusionList = ["3D Imaging", "Stem Cells", "Stem-Cells", "Stemcells"];
 
 let procedures = [];
+
+let miscList = [];
+// end exported variables
 
 isInDevelopment = () => {
   if (rootDomain === "www.freewaysites.com") return true;
@@ -36,7 +40,8 @@ const workingDomain = isInDevelopment()
 
 chrome.runtime.onMessage.addListener(function (request) {
   if (request === "hi") {
-    alert(request);
+    console.log("hello from content.js");
+    // alert(request);
   }
 });
 
