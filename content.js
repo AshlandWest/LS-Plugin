@@ -16,11 +16,11 @@ let procedureLists = navItems.filter(
   (page) => page.includes("Procedures") || page.includes("Services")
 );
 
-let exclusionList = ["3D Imaging", "Stem Cells", "Stem-Cells", "Stemcells"];
-
 let procedures = [];
 
-let miscList = [];
+let exclusions = ["3D Imaging", "Stem Cells", "Stem-Cells", "Stemcells"];
+
+let misc = [];
 // end exported variables
 
 isInDevelopment = () => {
@@ -45,56 +45,64 @@ const workingDomain = isInDevelopment()
 //   }
 // });
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request === "queryData") {
-    let unfilteredProcedures = [];
-    for (list of procedureLists) {
-      try {
-        if (document.querySelector('[itemprop="copyrightHolder"]')) {
+function queryHandler() {
+  let unfilteredProcedures = [];
+  for (list of procedureLists) {
+    try {
+      if (document.querySelector('[itemprop="copyrightHolder"]')) {
+        if (
+          document.querySelector('[itemprop="copyrightHolder"]').innerHTML ===
+          "PBHS"
+        ) {
           if (
-            document.querySelector('[itemprop="copyrightHolder"]').innerHTML ===
-            "PBHS"
+            document.querySelector(
+              "[data-searchable-tag=" + CSS.escape(list) + "]"
+            )
           ) {
-            if (
-              document.querySelector(
-                "[data-searchable-tag=" + CSS.escape(list) + "]"
-              )
-            ) {
-              let childElements = document.querySelector(
-                "[data-searchable-tag=" + CSS.escape(list) + "]"
-              ).parentElement.children;
-              let childList = {};
-              for (element in Array.from(childElements)) {
-                if (childElements[element].className === "children") {
-                  childList = childElements[element];
-                  break;
-                }
+            let childElements = document.querySelector(
+              "[data-searchable-tag=" + CSS.escape(list) + "]"
+            ).parentElement.children;
+            let childList = {};
+            for (element in Array.from(childElements)) {
+              if (childElements[element].className === "children") {
+                childList = childElements[element];
+                break;
               }
-              for (child in Array.from(childList.children)) {
-                unfilteredProcedures.push(
-                  childList.children[child].querySelector("a").innerText
-                );
-                procedures.push(
-                  ...unfilteredProcedures.filter(
-                    (item) =>
-                      !exclusionList.includes(item) &&
-                      !procedures.includes(item)
-                  )
-                );
-              }
-            } else {
-              throw `Can't find "${workingDomain}/${list}"`;
+            }
+            for (child in Array.from(childList.children)) {
+              unfilteredProcedures.push(
+                childList.children[child].querySelector("a").innerText
+              );
+              procedures.push(
+                ...unfilteredProcedures.filter(
+                  (item) =>
+                    !exclusions.includes(item) && !procedures.includes(item)
+                )
+              );
             }
           } else {
-            throw "Not a PBHS Site";
+            throw `Can't find "${workingDomain}/${list}"`;
           }
         } else {
           throw "Not a PBHS Site";
         }
-      } catch (err) {
-        if (err) alert(err);
+      } else {
+        throw "Not a PBHS Site";
       }
+    } catch (err) {
+      if (err) alert(err);
     }
-    sendResponse(procedures); //FIX ME (NEEDS TO SEND OBJECT WITH ALL VARIABLES)
+  }
+}
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request === "queryData") {
+    queryHandler();
+    const lists = {
+      procedures: procedures,
+      exclusions: exclusions,
+      misc: misc,
+    };
+    sendResponse(lists); //FIX ME (NEEDS TO SEND OBJECT WITH ALL VARIABLES)
   }
 });
