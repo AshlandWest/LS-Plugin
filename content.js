@@ -38,14 +38,14 @@ const workingDomain = isInDevelopment()
   ? developmentFilter(rootDomain)
   : window.location.hostname;
 
-chrome.runtime.onMessage.addListener(function (request) {
-  if (request === "hi") {
-    console.log("hello from content.js");
-    // alert(request);
-  }
-});
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//   if (request === "hi") {
+//     console.log("hello from content.js");
+//     sendResponse("OMG IT WORKED!!!");
+//   }
+// });
 
-chrome.runtime.onMessage.addListener(function (request) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request === "queryData") {
     let unfilteredProcedures = [];
     for (list of procedureLists) {
@@ -95,6 +95,6 @@ chrome.runtime.onMessage.addListener(function (request) {
         if (err) alert(err);
       }
     }
-    console.log(procedures);
+    sendResponse(procedures); //FIX ME (NEEDS TO SEND OBJECT WITH ALL VARIABLES)
   }
 });

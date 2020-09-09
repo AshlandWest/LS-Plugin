@@ -41,11 +41,25 @@ const updatePage = (lists) => {
     </div>`
     )
   );
-  document.getElementById("procedureList").innerText = ``;
-  document.getElementById("exclusionList").innerText = ``;
-  document.getElementById("miscList").innerText = ``;
-  document.getElementById("backEndCode").innerText = ``;
-  document.getElementById("frontEndCode").innerText = ``;
+  document.getElementById("procedureList").innerText = `${lists.procedures.join(
+    ", "
+  )}`;
+  document.getElementById("exclusionList").innerText = `${lists.exclusions.join(
+    ", "
+  )}`;
+  document.getElementById("miscList").innerText = `${lists.misc.join(", ")}`;
+  document.getElementById(
+    "backEndCode"
+  ).innerText = `Procedure[category]:${lists.procedures.join()},Other`;
+  document.getElementById("frontEndCode").innerHTML = "";
+  lists.procedures.forEach((procedurePage) =>
+    document
+      .getElementById("frontEndCode")
+      .insertAdjacentHTML(
+        "beforeend",
+        `<p>[PBHS_REVIEWS_SHOW CATEGORY="${procedurePage}"]`
+      )
+  );
 };
 
 function showHide(id) {
@@ -78,7 +92,9 @@ document.addEventListener(
 
     function onclick() {
       chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, "hi");
+        chrome.tabs.sendMessage(tabs[0].id, "hi", function (response) {
+          console.log(response);
+        });
       });
     }
   },
@@ -87,7 +103,9 @@ document.addEventListener(
 
 function queryData() {
   chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, "queryData");
+    chrome.tabs.sendMessage(tabs[0].id, "queryData", function (response) {
+      console.log(response);
+    });
   });
 }
 
