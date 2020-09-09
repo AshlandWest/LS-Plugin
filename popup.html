@@ -20,12 +20,12 @@
       <div class="table">
         <div class="row">
           <div class="cell">
-            <h3>Add Data</h3>
+            <h3>Update Data</h3>
           </div>
           <div class="cell">
-            <form id="procedureForm" name="form">
+            <form id="addForm" name="form">
               <div>
-                <label for="username">Procedure Lists</label>
+                <label for="username">Procedure Lists:</label>
                 <input type="text" id="pLists" name="plists" />
               </div>
               <br />
@@ -37,6 +37,26 @@
               <div>
                 <label for="userfile">Misc items to Include:</label>
                 <input type="text" id="miscAdd" name="miscAdd" />
+              </div>
+              <br />
+              <input type="submit" value="Update" />
+            </form>
+          </div>
+          <div class="cell">
+            <form id="removeForm">
+              <div>
+                <label for="remPLists">Procedure Lists:</label>
+                <select id="remPLists"></select>
+              </div>
+              <br />
+              <div>
+                <label for="remUseracc">Items to Exclude:</label>
+                <select id="remUseracc"></select>
+              </div>
+              <br />
+              <div>
+                <label for="RemMiscAdd">Misc items to Include:</label>
+                <select id="remMiscAdd"></select>
               </div>
               <br />
               <input type="submit" value="Update" />

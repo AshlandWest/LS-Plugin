@@ -14,6 +14,12 @@ document.addEventListener(
   false
 );
 
+function queryData() {
+  chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, "queryData");
+  });
+}
+
 document.addEventListener(
   "DOMContentLoaded",
   function () {
@@ -21,9 +27,7 @@ document.addEventListener(
       .querySelector("#queryData")
       .addEventListener("click", onclick, false);
     function onclick() {
-      chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, "queryData");
-      });
+      queryData();
     }
   },
   false
@@ -37,5 +41,8 @@ function submitHandler(event) {
   console.log("event: ", event);
   event.preventDefault();
 }
-const formElement = document.getElementById("procedureForm");
-formElement.addEventListener("submit", submitHandler);
+const addForm = document.getElementById("addForm");
+addForm.addEventListener("submit", submitHandler);
+
+const remForm = document.getElementById("remForm");
+remForm.addEventListener("submit", submitHandler);
