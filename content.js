@@ -11,10 +11,21 @@ if (topLevelNav) {
   });
 }
 
+const initializeProcedureLists = () => {
+  return navItems.filter(
+    (page) => page.includes("Procedures") || page.includes("Services")
+  );
+};
+
+const addToList = (inputArr, targetList) =>
+  targetList.push(
+    ...inputArr.filter(
+      (item) => !exclusions.includes(item) && !targetList.includes(item)
+    )
+  );
+
 // start exported variables
-let procedureLists = navItems.filter(
-  (page) => page.includes("Procedures") || page.includes("Services")
-);
+let procedureLists = [];
 
 let procedures = [];
 
@@ -46,6 +57,9 @@ const workingDomain = isInDevelopment()
 // });
 
 function queryHandler() {
+  if (!procedureLists.length) {
+    addToList(initializeProcedureLists(), procedureLists);
+  }
   let unfilteredProcedures = [];
   for (list of procedureLists) {
     try {
@@ -73,12 +87,7 @@ function queryHandler() {
               unfilteredProcedures.push(
                 childList.children[child].querySelector("a").innerText
               );
-              procedures.push(
-                ...unfilteredProcedures.filter(
-                  (item) =>
-                    !exclusions.includes(item) && !procedures.includes(item)
-                )
-              );
+              addToList(unfilteredProcedures, procedures);
             }
           } else {
             throw `Can't find "${workingDomain}/${list}"`;
@@ -90,7 +99,7 @@ function queryHandler() {
         throw "Not a PBHS Site";
       }
     } catch (err) {
-      if (err) alert(err);
+      chrome.runtime.sendMessage({ type: "error", details: err });
     }
   }
 }
@@ -103,6 +112,34 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       exclusions: exclusions,
       misc: misc,
     };
-    sendResponse(lists); //FIX ME (NEEDS TO SEND OBJECT WITH ALL VARIABLES)
+    sendResponse(lists);
+  }
+  if (request.formType === "addForm") {
+    const formData = request.formData;
+    for (const field in formData) {
+      formData[field] = formData[field].split(", ");
+    }
+    console.log("addForm Received!", formData);
+    for (const field in formData) {
+      if (field === "pLists") {
+        addToList(formData.pLists, procedureLists);
+      }
+      if (field === "exLists") {
+        addToList(formData.exLists, exclusions);
+      }
+      if (field === "miscAdd") {
+        addToList(formData.miscAdd, misc);
+      }
+    }
+    console.log("Procedure Lists", procedureLists);
+    console.log("Exclusion Lists", exclusions);
+    console.log("Misc Addition Lists", misc);
+    queryHandler();
+    const lists = {
+      procedures: procedures,
+      exclusions: exclusions,
+      misc: misc,
+    };
+    sendResponse(lists);
   }
 });

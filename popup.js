@@ -1,13 +1,13 @@
-const lists = {
-  procedures: ["Proc1", "Proc2", "Proc3"],
-  exclusions: ["Exc1", "Exc2", "Exc3"],
-  misc: ["Misc1", "Misc2", "Misc3"],
+let lists = {
+  procedures: [],
+  exclusions: [],
+  misc: [],
 };
 
-const updatePage = (lists) => {
-  document.getElementById("pLists").setAttribute("value", "");
-  document.getElementById("exLists").setAttribute("value", "");
-  document.getElementById("miscAdd").setAttribute("value", "");
+const updatePage = () => {
+  document.getElementById("pLists").value = "";
+  document.getElementById("exLists").value = "";
+  document.getElementById("miscAdd").value = "";
   lists.procedures.forEach((item) =>
     document.getElementById("remPLists").insertAdjacentHTML(
       "beforeend",
@@ -117,11 +117,47 @@ document.addEventListener(
 );
 
 function submitHandler(event) {
+  const isValidElement = (element) => {
+    return element.name && element.value;
+  };
+  const isValidValue = (element) => {
+    return !["checkbox", "radio"].includes(element.type) || element.checked;
+  };
+  const isCheckbox = (element) => element.type === "checkbox";
+  const formToJSON = (elements) =>
+    [].reduce.call(
+      elements,
+      (data, element) => {
+        if (isValidElement(element) && isValidValue(element)) {
+          if (isCheckbox(element)) {
+            data[element.name] = (data[element.name] || []).concat(
+              element.value
+            );
+          } else {
+            data[element.name] = element.value;
+          }
+        }
+        return data;
+      },
+      {}
+    );
+
   const form = event.target;
-  console.log(form);
-  const formData = new FormData(form);
-  console.log("array of entries", [...formData.entries()]);
-  console.log("event: ", event);
+
+  chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      {
+        formType: `${form.id}`,
+        formData: formToJSON(form),
+      },
+      function (response) {
+        lists = response;
+        updatePage();
+      }
+    );
+  });
+
   event.preventDefault();
 }
 const addForm = document.getElementById("addForm");
@@ -129,3 +165,9 @@ addForm.addEventListener("submit", submitHandler);
 
 const remForm = document.getElementById("remForm");
 remForm.addEventListener("submit", submitHandler);
+
+chrome.runtime.onMessage.addListener(function (request) {
+  if (request.type == "error") {
+    alert(request.details);
+  }
+});
