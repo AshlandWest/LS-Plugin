@@ -129,14 +129,13 @@ function queryHandler() {
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  let lists = {};
   if (request === "queryData") {
     queryHandler();
-    const lists = {
-      procedures: procedures,
-      exclusions: exclusions,
-      misc: misc,
-    };
-    sendResponse(lists);
+
+    (lists.procedureLists = procedureLists), (lists.procedures = procedures);
+    lists.exclusions = exclusions;
+    lists.misc = misc;
   }
   if (request.formType === "addForm") {
     const formData = request.formData;
@@ -159,14 +158,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("Exclusion Lists", exclusions);
     console.log("Misc Addition Lists", misc);
     queryHandler();
-    const lists = {
-      procedureLists: procedureLists,
-      procedures: procedures,
-      exclusions: exclusions,
-      misc: misc,
-    };
-    sendResponse(lists);
+
+    (lists.procedureLists = procedureLists), (lists.procedures = procedures);
+    lists.exclusions = exclusions;
+    lists.misc = misc;
   }
+  sendResponse(lists);
 });
 
 document.addEventListener("DOMContentLoaded", initAll());
