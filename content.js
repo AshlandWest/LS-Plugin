@@ -16,20 +16,47 @@ const initializeProcedureLists = () => {
     (page) => page.includes("Procedures") || page.includes("Services")
   );
 };
+const initializeExclusionList = () => {
+  addToList(exclusionsPreset, exclusions, true);
+};
 
-const addToList = (inputArr, targetList) =>
+const addToList = (inputArr, targetList, checkSite) => {
+  if (checkSite) {
+    const startingArr = inputArr;
+    inputArr = inputArr.filter((item) =>
+      document.querySelector("[data-searchable-tag=" + CSS.escape(item) + "]")
+    );
+    let diff = startingArr.filter((item) => inputArr.indexOf(item) === -1);
+    if (diff.length) {
+      const diffString = diff
+        .map((item) => `${workingDomain}/${item}`)
+        .join("\n");
+      chrome.runtime.sendMessage({
+        type: "error",
+        details: `Can not find the following item(s):\n${diffString}`,
+      });
+    }
+  }
   targetList.push(
     ...inputArr.filter(
       (item) => !exclusions.includes(item) && !targetList.includes(item)
     )
   );
+};
+
+function initAll() {
+  addToList(initializeProcedureLists(), procedureLists);
+  initializeExclusionList();
+}
+
+let exclusionsPreset = ["3D Imaging", "Stem Cells", "Stem-Cells", "Stemcells"];
 
 // start exported variables
 let procedureLists = [];
 
 let procedures = [];
 
-let exclusions = ["3D Imaging", "Stem Cells", "Stem-Cells", "Stemcells"];
+let exclusions = [];
 
 let misc = [];
 // end exported variables
@@ -57,24 +84,21 @@ const workingDomain = isInDevelopment()
 // });
 
 function queryHandler() {
-  if (!procedureLists.length) {
-    addToList(initializeProcedureLists(), procedureLists);
-  }
   let unfilteredProcedures = [];
-  for (list of procedureLists) {
-    try {
-      if (document.querySelector('[itemprop="copyrightHolder"]')) {
-        if (
-          document.querySelector('[itemprop="copyrightHolder"]').innerHTML ===
-          "PBHS"
-        ) {
+  try {
+    if (document.querySelector('[itemprop="copyrightHolder"]')) {
+      if (
+        document.querySelector('[itemprop="copyrightHolder"]').innerHTML ===
+        "PBHS"
+      ) {
+        for (item of procedureLists) {
           if (
             document.querySelector(
-              "[data-searchable-tag=" + CSS.escape(list) + "]"
+              "[data-searchable-tag=" + CSS.escape(item) + "]"
             )
           ) {
             let childElements = document.querySelector(
-              "[data-searchable-tag=" + CSS.escape(list) + "]"
+              "[data-searchable-tag=" + CSS.escape(item) + "]"
             ).parentElement.children;
             let childList = {};
             for (element in Array.from(childElements)) {
@@ -87,20 +111,20 @@ function queryHandler() {
               unfilteredProcedures.push(
                 childList.children[child].querySelector("a").innerText
               );
-              addToList(unfilteredProcedures, procedures);
             }
+            addToList(unfilteredProcedures, procedures);
           } else {
-            throw `Can't find "${workingDomain}/${list}"`;
+            throw `Can't find "${workingDomain}/${item}"`;
           }
-        } else {
-          throw "Not a PBHS Site";
         }
       } else {
         throw "Not a PBHS Site";
       }
-    } catch (err) {
-      chrome.runtime.sendMessage({ type: "error", details: err });
+    } else {
+      throw "Not a PBHS Site";
     }
+  } catch (err) {
+    chrome.runtime.sendMessage({ type: "error", details: err });
   }
 }
 
@@ -122,10 +146,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("addForm Received!", formData);
     for (const field in formData) {
       if (field === "pLists") {
-        addToList(formData.pLists, procedureLists);
+        addToList(formData.pLists, procedureLists, true);
       }
       if (field === "exLists") {
-        addToList(formData.exLists, exclusions);
+        addToList(formData.exLists, exclusions, true);
       }
       if (field === "miscAdd") {
         addToList(formData.miscAdd, misc);
@@ -136,6 +160,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("Misc Addition Lists", misc);
     queryHandler();
     const lists = {
+      procedureLists: procedureLists,
       procedures: procedures,
       exclusions: exclusions,
       misc: misc,
@@ -143,3 +168,5 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     sendResponse(lists);
   }
 });
+
+document.addEventListener("DOMContentLoaded", initAll());
