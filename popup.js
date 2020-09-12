@@ -1,4 +1,5 @@
 let lists = {
+  procedureLists: [],
   procedures: [],
   exclusions: [],
   misc: [],
@@ -8,7 +9,7 @@ const updatePage = () => {
   document.getElementById("pLists").value = "";
   document.getElementById("exLists").value = "";
   document.getElementById("miscAdd").value = "";
-  lists.procedures.forEach((item) =>
+  lists.procedureLists.forEach((item) =>
     document.getElementById("remPLists").insertAdjacentHTML(
       "beforeend",
       `<div>
@@ -35,9 +36,12 @@ const updatePage = () => {
     </div>`
     )
   );
-  document.getElementById("procedureList").innerText = `${lists.procedures.join(
-    ", "
-  )}`;
+  document.getElementById(
+    "procedureList"
+  ).innerText = `${lists.procedureLists.join(", ")}`;
+  document.getElementById(
+    "procedurePages"
+  ).innerText = `${lists.procedures.join(", ")}`;
   document.getElementById("exclusionList").innerText = `${lists.exclusions.join(
     ", "
   )}`;
@@ -167,7 +171,9 @@ const remForm = document.getElementById("remForm");
 remForm.addEventListener("submit", submitHandler);
 
 chrome.runtime.onMessage.addListener(function (request) {
+  console.log("saw the request");
   if (request.type == "error") {
+    console.log("triggered if block");
     alert(request.details);
   }
 });
