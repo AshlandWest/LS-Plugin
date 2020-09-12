@@ -44,9 +44,14 @@ const addToList = (inputArr, targetList, checkSite) => {
   );
 };
 
+const remFromList = (inputArr, targetList) => {
+  inputArr.forEach((item) => targetList.pop(targetList.indexOf(item)));
+};
+
 function initAll() {
   addToList(initializeProcedureLists(), procedureLists);
   initializeExclusionList();
+  queryHandler();
 }
 
 let exclusionsPreset = ["3D Imaging", "Stem Cells", "Stem-Cells", "Stemcells"];
@@ -84,7 +89,7 @@ const workingDomain = isInDevelopment()
 // });
 
 function queryHandler() {
-  let unfilteredProcedures = [];
+  let newProcedures = [];
   try {
     if (document.querySelector('[itemprop="copyrightHolder"]')) {
       if (
@@ -108,11 +113,10 @@ function queryHandler() {
               }
             }
             for (child in Array.from(childList.children)) {
-              unfilteredProcedures.push(
+              newProcedures.push(
                 childList.children[child].querySelector("a").innerText
               );
             }
-            addToList(unfilteredProcedures, procedures);
           } else {
             throw `Can't find "${workingDomain}/${item}"`;
           }
@@ -126,23 +130,19 @@ function queryHandler() {
   } catch (err) {
     chrome.runtime.sendMessage({ type: "error", details: err });
   }
+  procedures = newProcedures;
+  console.log(`procedures at the end of queryData: ${procedures}`);
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   let lists = {};
   if (request === "queryData") {
-    queryHandler();
-
-    (lists.procedureLists = procedureLists), (lists.procedures = procedures);
-    lists.exclusions = exclusions;
-    lists.misc = misc;
   }
   if (request.formType === "addForm") {
     const formData = request.formData;
     for (const field in formData) {
       formData[field] = formData[field].split(", ");
     }
-    console.log("addForm Received!", formData);
     for (const field in formData) {
       if (field === "pLists") {
         addToList(formData.pLists, procedureLists, true);
@@ -154,15 +154,28 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         addToList(formData.miscAdd, misc);
       }
     }
-    console.log("Procedure Lists", procedureLists);
-    console.log("Exclusion Lists", exclusions);
-    console.log("Misc Addition Lists", misc);
-    queryHandler();
-
-    (lists.procedureLists = procedureLists), (lists.procedures = procedures);
-    lists.exclusions = exclusions;
-    lists.misc = misc;
   }
+  if (request.formType === "remForm") {
+    const formData = request.formData;
+    console.log("formData = ", formData);
+    for (const field in formData) {
+      if (field === "remPLists") {
+        console.log("inside plists");
+        remFromList(formData.remPLists, procedureLists);
+      }
+      if (field === "remExLists") {
+        remFromList(formData.remExLists, exclusions);
+      }
+      if (field === "remMiscAdd") {
+        remFromList(formData.remMiscAdd, misc);
+      }
+    }
+  }
+  queryHandler();
+  lists.procedureLists = procedureLists;
+  lists.procedures = procedures;
+  lists.exclusions = exclusions;
+  lists.misc = misc;
   sendResponse(lists);
 });
 

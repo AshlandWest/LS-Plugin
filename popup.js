@@ -9,11 +9,14 @@ const updatePage = () => {
   document.getElementById("pLists").value = "";
   document.getElementById("exLists").value = "";
   document.getElementById("miscAdd").value = "";
+  document.getElementById("backEndCode").innerHTML = "";
+  document.getElementById("frontEndCode").innerHTML = "";
+
   lists.procedureLists.forEach((item) =>
     document.getElementById("remPLists").insertAdjacentHTML(
       "beforeend",
       `<div>
-        <input type="checkbox" id="${item}" name="${item}" value="${item}" />
+        <input type="checkbox" id="remPLists${item}" name="remPLists" value="${item}" />
         <label for="${item}">${item}</label>
       </div>`
     )
@@ -22,7 +25,7 @@ const updatePage = () => {
     document.getElementById("remExLists").insertAdjacentHTML(
       "beforeend",
       `<div>
-        <input type="checkbox" id="${item}" name="${item}" value="${item}" />
+        <input type="checkbox" id="remExLists${item}" name="remExLists" value="${item}" />
         <label for="${item}">${item}</label>
       </div>`
     )
@@ -31,7 +34,7 @@ const updatePage = () => {
     document.getElementById("remMiscAdd").insertAdjacentHTML(
       "beforeend",
       `<div>
-      <input type="checkbox" id="${item}" name="${item}" value="${item}" />
+      <input type="checkbox" id="remMiscAdd${item}" name="remMiscAdd" value="${item}" />
       <label for="${item}">${item}</label>
     </div>`
     )
