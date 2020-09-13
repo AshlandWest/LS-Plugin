@@ -45,12 +45,12 @@ const addToList = (inputArr, targetList, checkSite) => {
 };
 
 const remFromList = (inputArr, targetList) => {
-  inputArr.forEach((item) => targetList.pop(targetList.indexOf(item)));
+  inputArr.forEach((item) => targetList.splice(targetList.indexOf(item), 1));
 };
 
 function initAll() {
-  addToList(initializeProcedureLists(), procedureLists);
   initializeExclusionList();
+  addToList(initializeProcedureLists(), procedureLists);
   queryHandler();
 }
 
@@ -130,8 +130,8 @@ function queryHandler() {
   } catch (err) {
     chrome.runtime.sendMessage({ type: "error", details: err });
   }
-  procedures = newProcedures;
-  console.log(`procedures at the end of queryData: ${procedures}`);
+  procedures = [];
+  addToList(newProcedures, procedures);
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -160,7 +160,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     console.log("formData = ", formData);
     for (const field in formData) {
       if (field === "remPLists") {
-        console.log("inside plists");
+        console.log("formData.remPLists = ", formData.remPLists);
         remFromList(formData.remPLists, procedureLists);
       }
       if (field === "remExLists") {

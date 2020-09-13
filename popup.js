@@ -9,6 +9,9 @@ const updatePage = () => {
   document.getElementById("pLists").value = "";
   document.getElementById("exLists").value = "";
   document.getElementById("miscAdd").value = "";
+  document.getElementById("remPLists").innerHTML = "";
+  document.getElementById("remExLists").innerHTML = "";
+  document.getElementById("remMiscAdd").innerHTML = "";
   document.getElementById("backEndCode").innerHTML = "";
   document.getElementById("frontEndCode").innerHTML = "";
 
