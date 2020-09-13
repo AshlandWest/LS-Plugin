@@ -137,10 +137,11 @@ function queryHandler() {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   let lists = {};
   if (request === "queryData") {
+    // This function is called when popup.js finishes loading.
+    // There may be important things to put here in the future
   }
   if (request.formType === "addForm") {
     const formData = request.formData;
-    console.log("formData = ", formData);
 
     for (const field in formData) {
       if (typeof formData[field] === "string") {
@@ -163,7 +164,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     const formData = request.formData;
     for (const field in formData) {
       if (field === "remPLists") {
-        console.log("formData.remPLists = ", formData.remPLists);
         remFromList(formData.remPLists, procedureLists);
       }
       if (field === "remExLists") {
