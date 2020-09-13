@@ -140,15 +140,19 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
   if (request.formType === "addForm") {
     const formData = request.formData;
+    console.log("formData = ", formData);
+
     for (const field in formData) {
-      formData[field] = formData[field].split(", ");
+      if (typeof formData[field] === "string") {
+        formData[field] = formData[field].split(", ");
+      }
     }
     for (const field in formData) {
       if (field === "pLists") {
         addToList(formData.pLists, procedureLists, true);
       }
-      if (field === "exLists") {
-        addToList(formData.exLists, exclusions, true);
+      if (field === "addExLists") {
+        addToList(formData.addExLists, exclusions, true);
       }
       if (field === "miscAdd") {
         addToList(formData.miscAdd, misc);
@@ -157,7 +161,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   }
   if (request.formType === "remForm") {
     const formData = request.formData;
-    console.log("formData = ", formData);
     for (const field in formData) {
       if (field === "remPLists") {
         console.log("formData.remPLists = ", formData.remPLists);

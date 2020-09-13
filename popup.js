@@ -15,12 +15,24 @@ const updatePage = () => {
   document.getElementById("backEndCode").innerHTML = "";
   document.getElementById("frontEndCode").innerHTML = "";
 
+  lists.procedures.forEach((item) =>
+    document.getElementById("exLists").insertAdjacentHTML(
+      "beforeend",
+      `<div>
+      <input type="checkbox" id="addExLists${item}" name="addExLists" value="${item}" />
+      <label for="${item}">${item}</label>
+      <hr />
+    </div>`
+    )
+  );
+
   lists.procedureLists.forEach((item) =>
     document.getElementById("remPLists").insertAdjacentHTML(
       "beforeend",
       `<div>
         <input type="checkbox" id="remPLists${item}" name="remPLists" value="${item}" />
         <label for="${item}">${item}</label>
+        <hr />
       </div>`
     )
   );
@@ -29,7 +41,8 @@ const updatePage = () => {
       "beforeend",
       `<div>
         <input type="checkbox" id="remExLists${item}" name="remExLists" value="${item}" />
-        <label for="${item}">${item}</label>
+        <label for="${item}">${item}</label> 
+        <hr />
       </div>`
     )
   );
@@ -39,6 +52,7 @@ const updatePage = () => {
       `<div>
       <input type="checkbox" id="remMiscAdd${item}" name="remMiscAdd" value="${item}" />
       <label for="${item}">${item}</label>
+      <hr />
     </div>`
     )
   );
