@@ -45,3 +45,9 @@ button {
 h1 {
   text-align: center;
 }
+h3 {
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+  text-justify: center;
+}
