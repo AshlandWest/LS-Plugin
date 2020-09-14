@@ -28,12 +28,10 @@ const addToList = (inputArr, targetList, checkSite) => {
     );
     let diff = startingArr.filter((item) => inputArr.indexOf(item) === -1);
     if (diff.length) {
-      const diffString = diff
-        .map((item) => `${workingDomain}/${item}`)
-        .join("\n");
+      const diffString = diff.join("\n");
       chrome.runtime.sendMessage({
         type: "error",
-        details: `Can not find the following item(s):\n${diffString}`,
+        details: `Can not find the following item(s) on ${workingDomain}:\n${diffString}`,
       });
     }
   }
