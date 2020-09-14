@@ -5,128 +5,116 @@
   </head>
 
   <body>
-      <p
-        style="
-          width: 100%;
-          height: 50px;
-          border-top: 1px solid black;
-          border-bottom: 1px solid black;
-        "
-      >      <button id="bananas" style="float: left;">Bananas</button>
-      <button id="queryData" style="float: left;">Query Data</button>
-      <span id="errors" style="color: red"></span>
-</p>
-      <div class="table">
-        <div class="row">
-          <div class="cell outerLeft">
-            <h3>Update Data</h3>
-          </div>
-          <div class="cell">
-            <form id="addForm" name="form">
-              <div>
-                <label for="pLists">Procedure Lists:</label>
-                <input
-                  type="text"
-                  id="pLists"
-                  name="pLists"
-                  placeholder="Add Procedure Lists"
-                />
-              </div>
-              <br />
-              <div>
-                <label for="exLists">Items to Exclude:</label>
-                <button type="button" class="showHide" for="exLists">
-                  Show
-                </button>
-                <span id="exLists" style="display: none"></span>
-              </div>
-
-
-              <br />
-              <div>
-                <label for="miscAdd">Misc items to Include:</label>
-                <input
-                  type="text"
-                  id="miscAdd"
-                  name="miscAdd"
-                  placeholder="Add Miscellaneous Inclutions"
-                />
-              </div>
-              <br />
-              <input type="submit" value="Update" />
-            </form>
-          </div>
-          <div class="cell">
-            <form id="remForm">
-              <div>
-                <label for="remPLists">Procedure Lists:</label>
-                <button type="button" class="showHide" for="remPLists">
-                  Show
-                </button>
-                <span id="remPLists" style="display: none"></span>
-              </div>
-              <br />
-              <div>
-                <label for="remExLists">Items to Exclude:</label>
-                <button type="button" class="showHide" for="remExLists">
-                  Show
-                </button>
-                <span id="remExLists" style="display: none"></span>
-              </div>
-              <br />
-              <div>
-                <label for="remMiscAdd">Misc items to Include:</label>
-                <button type="button" class="showHide" for="remMiscAdd">
-                  Show
-                </button>
-                <span id="remMiscAdd" style="display: none"></span>
-              </div>
-              <br />
-              <input type="submit" value="Update" />
-            </form>
-          </div>
+    <h1>Launch Survey Helper</h1>
+    <div class="table">
+      <div class="row">
+        <div class="cell outerLeft">
+          <h3>Update Data</h3>
         </div>
-        <div class="row">
-          <div class="cell outerLeft">
-            <h3>Procedure Lists</h3>
-          </div>
-          <div class="cell">
-            <p id="procedureList">Loading...</p>
-          </div>
+        <div class="cell">
+          <form id="addForm" name="form">
+            <div>
+              <label for="pLists">Procedure Lists:</label>
+              <input
+                type="text"
+                id="pLists"
+                name="pLists"
+                placeholder="Add Procedure Lists"
+              />
+            </div>
+            <br />
+            <div>
+              <label for="exLists">Items to Exclude:</label>
+              <button type="button" class="showHide" for="exLists">
+                Show
+              </button>
+              <span id="exLists" style="display: none"></span>
+            </div>
+            <br />
+            <div>
+              <label for="miscAdd">Misc items to Include:</label>
+              <input
+                type="text"
+                id="miscAdd"
+                name="miscAdd"
+                placeholder="Add Miscellaneous Inclutions"
+              />
+            </div>
+            <br />
+            <input type="submit" value="Update" />
+          </form>
         </div>
-        <div class="row">
-          <div class="cell outerLeft">
-            <h3>Procedure Pages</h3>
-          </div>
-          <div class="cell">
-            <p id="procedurePages">Loading...</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="cell outerLeft">
-            <h3>Exclutions</h3>
-          </div>
-          <div class="cell">
-            <p id="exclusionList">Loading...</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="cell outerLeft">
-            <h3>Misc Inclutions</h3>
-          </div>
-          <div class="cell">
-            <p id="miscList">Loading...</p>
-          </div>
-        </div>
-        <div class="fullRow">
-          <h3>Backend Code</h3>
-          <p id="backEndCode">Loading...</p>
-        </div>
-        <div class="fullRow">
-          <h3>Frontend Code</h3>
-          <p id="frontEndCode">Loading...</p>
+        <div class="cell">
+          <form id="remForm">
+            <div>
+              <label for="remPLists">Procedure Lists:</label>
+              <button type="button" class="showHide" for="remPLists">
+                Show
+              </button>
+              <span id="remPLists" style="display: none"></span>
+            </div>
+            <br />
+            <div>
+              <label for="remExLists">Items to Exclude:</label>
+              <button type="button" class="showHide" for="remExLists">
+                Show
+              </button>
+              <span id="remExLists" style="display: none"></span>
+            </div>
+            <br />
+            <div>
+              <label for="remMiscAdd">Misc items to Include:</label>
+              <button type="button" class="showHide" for="remMiscAdd">
+                Show
+              </button>
+              <span id="remMiscAdd" style="display: none"></span>
+            </div>
+            <br />
+            <input type="submit" value="Update" />
+          </form>
         </div>
       </div>
+      <div class="row">
+        <div class="cell outerLeft">
+          <h3>Procedure Lists</h3>
+        </div>
+        <div class="cell">
+          <p id="procedureList">Loading...</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell outerLeft">
+          <h3>Procedure Pages</h3>
+        </div>
+        <div class="cell">
+          <p id="procedurePages">Loading...</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell outerLeft">
+          <h3>Exclutions</h3>
+        </div>
+        <div class="cell">
+          <p id="exclusionList">Loading...</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell outerLeft">
+          <h3>Misc Inclutions</h3>
+        </div>
+        <div class="cell">
+          <p id="miscList">Loading...</p>
+        </div>
+      </div>
+      <div class="fullRow">
+        <h3>Backend Code</h3>
+        <p id="backEndCode">Loading...</p>
+      </div>
+      <div class="fullRow">
+        <h3>Frontend Code</h3>
+        <p id="frontEndCode">Loading...</p>
+      </div>
+    </div>
       <script src="popup.js"></script>
     </div>
 </html>
