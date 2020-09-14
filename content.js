@@ -54,7 +54,14 @@ function initAll() {
   queryHandler();
 }
 
-let exclusionsPreset = ["3D Imaging", "Stem Cells", "Stem-Cells", "Stemcells"];
+let exclusionsPreset = [
+  "3D Imaging",
+  "Stem Cells",
+  "Stem-Cells",
+  "Stemcells",
+  "anesthesia",
+  "Anesthesia",
+];
 
 // start exported variables
 let procedureLists = [];
@@ -80,13 +87,6 @@ developmentFilter = (domain) => {
 const workingDomain = isInDevelopment()
   ? developmentFilter(rootDomain)
   : window.location.hostname;
-
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//   if (request === "hi") {
-//     console.log("hello from content.js");
-//     sendResponse("OMG IT WORKED!!!");
-//   }
-// });
 
 function queryHandler() {
   let newProcedures = [];
@@ -132,12 +132,13 @@ function queryHandler() {
   }
   procedures = [];
   addToList(newProcedures, procedures);
+  addToList(misc, procedures);
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   let lists = {};
   if (request === "queryData") {
-    // This function is called when popup.js finishes loading.
+    // This function is called when popup.jsaddToList finishes loading.
     // There may be important things to put here in the future
   }
   if (request.formType === "addForm") {

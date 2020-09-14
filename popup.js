@@ -128,19 +128,6 @@ function queryData() {
   });
 }
 
-document.addEventListener(
-  "DOMContentLoaded",
-  // function () {
-  // document
-  // .querySelector("#queryData")
-  // .addEventListener("click", onclick, false);
-  // function onclick() {
-  queryData()
-  // }
-  // },
-  // false
-);
-
 function submitHandler(event) {
   const isValidElement = (element) => {
     return element.name && element.value;
@@ -196,3 +183,5 @@ chrome.runtime.onMessage.addListener(function (request) {
     alert(request.details);
   }
 });
+
+document.addEventListener("DOMContentLoaded", queryData());
