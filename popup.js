@@ -7,14 +7,32 @@ let lists = {
 
 const updatePage = () => {
   document.getElementById("pLists").value = "";
-  document.getElementById("exLists").value = "";
+  document.getElementById("exLists").innerHTML = "";
   document.getElementById("miscAdd").value = "";
+  document.getElementById("remPLists").innerHTML = "";
+  document.getElementById("remExLists").innerHTML = "";
+  document.getElementById("remMiscAdd").innerHTML = "";
+  document.getElementById("backEndCode").innerHTML = "";
+  document.getElementById("frontEndCode").innerHTML = "";
+
+  lists.procedures.forEach((item) =>
+    document.getElementById("exLists").insertAdjacentHTML(
+      "beforeend",
+      `<div>
+      <input type="checkbox" id="addExLists${item}" name="addExLists" value="${item}" />
+      <label for="${item}">${item}</label>
+      <hr />
+    </div>`
+    )
+  );
+
   lists.procedureLists.forEach((item) =>
     document.getElementById("remPLists").insertAdjacentHTML(
       "beforeend",
       `<div>
-        <input type="checkbox" id="${item}" name="${item}" value="${item}" />
+        <input type="checkbox" id="remPLists${item}" name="remPLists" value="${item}" />
         <label for="${item}">${item}</label>
+        <hr />
       </div>`
     )
   );
@@ -22,8 +40,9 @@ const updatePage = () => {
     document.getElementById("remExLists").insertAdjacentHTML(
       "beforeend",
       `<div>
-        <input type="checkbox" id="${item}" name="${item}" value="${item}" />
-        <label for="${item}">${item}</label>
+        <input type="checkbox" id="remExLists${item}" name="remExLists" value="${item}" />
+        <label for="${item}">${item}</label> 
+        <hr />
       </div>`
     )
   );
@@ -31,8 +50,9 @@ const updatePage = () => {
     document.getElementById("remMiscAdd").insertAdjacentHTML(
       "beforeend",
       `<div>
-      <input type="checkbox" id="${item}" name="${item}" value="${item}" />
+      <input type="checkbox" id="remMiscAdd${item}" name="remMiscAdd" value="${item}" />
       <label for="${item}">${item}</label>
+      <hr />
     </div>`
     )
   );
@@ -81,44 +101,14 @@ for (const button of showHideButtons) {
   });
 }
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function () {
-    document
-      .querySelector("#bananas")
-      .addEventListener("click", onclick, false);
-
-    function onclick() {
-      chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, "hi", function (response) {
-          console.log(response);
-        });
-      });
-    }
-  },
-  false
-);
-
 function queryData() {
   chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, "queryData", function (response) {
-      console.log(response);
+      lists = response;
+      updatePage();
     });
   });
 }
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function () {
-    document
-      .querySelector("#queryData")
-      .addEventListener("click", onclick, false);
-    function onclick() {
-      queryData();
-    }
-  },
-  false
-);
 
 function submitHandler(event) {
   const isValidElement = (element) => {
@@ -171,9 +161,9 @@ const remForm = document.getElementById("remForm");
 remForm.addEventListener("submit", submitHandler);
 
 chrome.runtime.onMessage.addListener(function (request) {
-  console.log("saw the request");
   if (request.type == "error") {
-    console.log("triggered if block");
     alert(request.details);
   }
 });
+
+document.addEventListener("DOMContentLoaded", queryData());
