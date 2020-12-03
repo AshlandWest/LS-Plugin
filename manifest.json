@@ -1,7 +1,7 @@
 {
-  "name": "Launch Survey Helper (beta)",
-  "version": "0.1",
-  "description": "The bare-bones of an app to help with Launch Survey creation",
+  "name": "Launch Survey Helper",
+  "version": "1.0",
+  "description": "An app to help the PBHS Support Team with Launch Survey creation",
   "manifest_version": 2,
   "content_scripts": [
     {
