@@ -1,11 +1,12 @@
 {
   "name": "Launch Survey Helper",
   "version": "1.0",
+  "permissions": ["activeTab"],
   "description": "An app to help the PBHS Support Team with Launch Survey creation",
   "manifest_version": 2,
   "content_scripts": [
     {
-      "matches": ["activeTab"],
+      "matches": ["<all_urls>"],
       "js": ["content.js"]
     }
   ],
