@@ -32,11 +32,15 @@ const addToList = (inputArr, targetList, checkSite) => {
       });
     }
   }
-  targetList.push(
-    ...inputArr.filter(
-      (item) => !exclusions.includes(item) && !targetList.includes(item)
-    )
-  );
+  if (targetList === procedureLists) {
+    targetList.push(...inputArr.filter((item) => !targetList.includes(item)));
+  } else {
+    targetList.push(
+      ...inputArr.filter(
+        (item) => !exclusions.includes(item) && !targetList.includes(item)
+      )
+    );
+  }
 };
 
 const remFromList = (inputArr, targetList) => {
@@ -50,12 +54,50 @@ function initAll() {
 }
 
 let exclusionsPreset = [
-  "3D Imaging",
-  "Stem Cells",
   "Stem-Cells",
   "Stemcells",
   "anesthesia",
   "Anesthesia",
+  //start list from Alicia's document
+  "Overview of Implant Placemen",
+  "After Implant Placemen",
+  "Cost of Dental Implant",
+  "Jaw Bone Health",
+  "Jaw Bone Loss and Deterioratio",
+  "About Bone Grafting",
+  "After Extraction of Wisdom Teet",
+  "Facial Trauma",
+  "Oral Pathology",
+  "Bone Morphogenic Protei",
+  "Stem Cells",
+  "Platelet Rich Plasma",
+  "3D Imaging",
+  "Preventative Care",
+  "Oral Hygiene",
+  "Arestin",
+  "Periodontal Maintenanc",
+  "Restorative Dentistry",
+  "Denture Care",
+  "Stem Cells",
+  "Cosmetic Dentistry",
+  "Uses of CEREC",
+  "CEREC Benefit",
+  "Restorative Dentistry",
+  "Overview of Implant Placemen",
+  "After Implant Placemen",
+  "Cost of Dental Implant",
+  "Denture Care",
+  "Cosmetic Dentistry",
+  "Uses of CEREC",
+  "CEREC Benefits",
+  "General Dentistry",
+  "Oral Hygiene",
+  "Women and Periodontal Heal",
+  "Procedures",
+  "Root Canal Safety",
+  "Myths About Root Canal",
+  "Root Resorption",
+  "Endodontic Reference",
 ];
 
 // start exported variables
