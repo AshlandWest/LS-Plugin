@@ -1,6 +1,3 @@
-const currentURL = window.location.href;
-const rootDomain = window.location.hostname;
-
 const topLevelNav = document.getElementById("nav");
 let navItems = [];
 if (topLevelNav) {
@@ -31,7 +28,7 @@ const addToList = (inputArr, targetList, checkSite) => {
       const diffString = diff.join("\n");
       chrome.runtime.sendMessage({
         type: "error",
-        details: `Can not find the following item(s) on ${workingDomain}:\n${diffString}`,
+        details: `Can not find the following item(s):\n${diffString}`,
       });
     }
   }
@@ -71,21 +68,6 @@ let exclusions = [];
 let misc = [];
 // end exported variables
 
-isInDevelopment = () => {
-  if (rootDomain === "www.freewaysites.com") return true;
-  if (rootDomain === "www.pbhssites.com") return true;
-  return false;
-};
-
-developmentFilter = (domain) => {
-  pathArray = window.location.pathname.split("/");
-  return `${domain}/${pathArray[1]}`;
-};
-
-const workingDomain = isInDevelopment()
-  ? developmentFilter(rootDomain)
-  : window.location.hostname;
-
 function queryHandler() {
   let newProcedures = [];
   try {
@@ -116,7 +98,7 @@ function queryHandler() {
               );
             }
           } else {
-            throw `Can't find "${workingDomain}/${item}"`;
+            throw `Can't find "${item}. Check your spelling and try capitalizing the first letter of each word."`;
           }
         }
       } else {
