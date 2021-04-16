@@ -160,7 +160,7 @@ function queryHandler() {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   let lists = {};
   if (request === "queryData") {
-    // This function is called when popup.jsaddToList finishes loading.
+    // This function is called when popup.js addToList finishes loading.
     // There may be important things to put here in the future
   }
   if (request.formType === "addForm") {
