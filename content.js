@@ -10,7 +10,10 @@ if (topLevelNav) {
 
 const initializeProcedureLists = () => {
   return navItems.filter(
-    (page) => page.includes("Procedures") || page.includes("Services")
+    (page) =>
+      page.includes("Procedures") ||
+      page.includes("Services") ||
+      page.includes("Treatments")
   );
 };
 const initializeExclusionList = () => {
