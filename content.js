@@ -116,41 +116,28 @@ let misc = [];
 function queryHandler() {
   let newProcedures = [];
   try {
-    if (document.querySelector('[itemprop="copyrightHolder"]')) {
+    for (item of procedureLists) {
       if (
-        document.querySelector('[itemprop="copyrightHolder"]').innerHTML ===
-        "PBHS"
+        document.querySelector("[data-searchable-tag=" + CSS.escape(item) + "]")
       ) {
-        for (item of procedureLists) {
-          if (
-            document.querySelector(
-              "[data-searchable-tag=" + CSS.escape(item) + "]"
-            )
-          ) {
-            let childElements = document.querySelector(
-              "[data-searchable-tag=" + CSS.escape(item) + "]"
-            ).parentElement.children;
-            let childList = {};
-            for (element in Array.from(childElements)) {
-              if (childElements[element].className === "children") {
-                childList = childElements[element];
-                break;
-              }
-            }
-            for (child in Array.from(childList.children)) {
-              newProcedures.push(
-                childList.children[child].querySelector("a").innerText
-              );
-            }
-          } else {
-            throw `Can't find "${item}. Check your spelling and try capitalizing the first letter of each word."`;
+        let childElements = document.querySelector(
+          "[data-searchable-tag=" + CSS.escape(item) + "]"
+        ).parentElement.children;
+        let childList = {};
+        for (element in Array.from(childElements)) {
+          if (childElements[element].className === "children") {
+            childList = childElements[element];
+            break;
           }
         }
+        for (child in Array.from(childList.children)) {
+          newProcedures.push(
+            childList.children[child].querySelector("a").innerText
+          );
+        }
       } else {
-        throw "Not a PBHS Site";
+        throw `Can't find "${item}. Check your spelling and try capitalizing the first letter of each word."`;
       }
-    } else {
-      throw "Not a PBHS Site";
     }
   } catch (err) {
     chrome.runtime.sendMessage({ type: "error", details: err });
