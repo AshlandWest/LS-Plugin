@@ -50,10 +50,25 @@ const remFromList = (inputArr, targetList) => {
   inputArr.forEach((item) => targetList.splice(targetList.indexOf(item), 1));
 };
 
+//Start misc procedure finder
+const procedurePreset = ["TMJ", "Wisdom Teeth"];
+function miscProcedureFinder() {
+  let miscProcedures = [];
+  miscProcedures.push(
+    ...procedurePreset.filter((item) =>
+      document.querySelector("[data-searchable-tag=" + CSS.escape(item) + "]")
+    )
+  );
+  console.log("miscProcedures:" + miscProcedures);
+  addToList(miscProcedures, procedures);
+}
+//End procedure list finder
+
 function initAll() {
   initializeExclusionList();
   addToList(initializeProcedureLists(), procedureLists);
   queryHandler();
+  miscProcedureFinder();
 }
 
 let exclusionsPreset = [
@@ -142,7 +157,6 @@ function queryHandler() {
   } catch (err) {
     chrome.runtime.sendMessage({ type: "error", details: err });
   }
-  procedures = [];
   addToList(newProcedures, procedures);
   addToList(misc, procedures);
 }
