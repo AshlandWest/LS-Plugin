@@ -59,7 +59,6 @@ function miscProcedureFinder() {
       document.querySelector("[data-searchable-tag=" + CSS.escape(item) + "]")
     )
   );
-  console.log("miscProcedures:" + miscProcedures);
   addToList(miscProcedures, procedures);
 }
 //End procedure list finder
